@@ -1,1524 +1,543 @@
-/*=================================================
-ParsGate v2
-Author : OpenAI
-=================================================*/
-
-
-/*==============================
-RESET
-==============================*/
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-
-font-family:"Vazirmatn",sans-serif;
-
-direction:rtl;
-
-background:#f7f8fb;
-
-color:#17212d;
-
-line-height:1.8;
-
-overflow-x:hidden;
-
-}
-
-
-/*==============================
-ROOT
-==============================*/
-
-:root{
-
---navy:#163b63;
-
---navy-dark:#0f2d4c;
-
---gold:#d4af37;
-
---gold-light:#f3d977;
-
---white:#ffffff;
-
---gray:#6d7783;
-
---light:#f7f8fb;
-
---border:#e8edf3;
-
---shadow:0 20px 60px rgba(0,0,0,.12);
-
---radius:18px;
-
---transition:.35s;
-
-}
-
-
-/*==============================
-CONTAINER
-==============================*/
-
-.container{
-
-width:min(1280px,92%);
-
-margin:auto;
-
-}
-
-
-/*==============================
-LINKS
-==============================*/
-
-a{
-
-text-decoration:none;
-
-color:inherit;
-
-transition:var(--transition);
-
-}
-
-img{
-
-display:block;
-
-width:100%;
-
-}
-
-
-/*==============================
-BUTTONS
-==============================*/
-
-.btn-gold{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:10px;
-
-padding:14px 34px;
-
-background:var(--gold);
-
-color:#fff;
-
-font-weight:700;
-
-border-radius:999px;
-
-box-shadow:0 10px 30px rgba(212,175,55,.35);
-
-transition:.35s;
-
-}
-
-.btn-gold:hover{
-
-transform:translateY(-3px);
-
-}
-
-.btn-outline{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:10px;
-
-padding:14px 34px;
-
-border:2px solid var(--gold);
-
-color:var(--gold);
-
-border-radius:999px;
-
-font-weight:700;
-
-transition:.35s;
-
-}
-
-.btn-outline:hover{
-
-background:var(--gold);
-
-color:#fff;
-
-}
-
-
-/*==============================
-SECTION TITLE
-==============================*/
-
-.section-title{
-
-text-align:center;
-
-margin-bottom:60px;
-
-}
-
-.section-title span{
-
-color:var(--gold);
-
-font-size:15px;
-
-font-weight:700;
-
-letter-spacing:2px;
-
-}
-
-.section-title h2{
-
-font-size:42px;
-
-color:var(--navy-dark);
-
-margin:12px 0;
-
-}
-
-.section-title p{
-
-color:var(--gray);
-
-font-size:17px;
-
-max-width:700px;
-
-margin:auto;
-
-}
-
-/*==============================
-TOP BAR
-==============================*/
-
-.top-bar{
-
-background:var(--navy-dark);
-
-color:#fff;
-
-font-size:13px;
-
-padding:10px 0;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-padding-inline:4%;
-
-border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-.top-right,
-.top-left{
-
-display:flex;
-
-align-items:center;
-
-gap:18px;
-
-}
-
-.top-right span{
-
-display:flex;
-
-align-items:center;
-
-gap:8px;
-
-opacity:.92;
-
-}
-
-.top-right i{
-
-color:var(--gold);
-
-}
-
-.top-left a{
-
-font-weight:600;
-
-transition:.3s;
-
-}
-
-.top-left a:hover{
-
-color:var(--gold-light);
-
-}
-
-
-
-/*==============================
-HEADER
-==============================*/
-
-.header{
-
-position:sticky;
-
-top:0;
-
-z-index:999;
-
-background:rgba(22,59,99,.95);
-
-backdrop-filter:blur(18px);
-
-box-shadow:0 8px 30px rgba(0,0,0,.08);
-
-}
-
-.header .container{
-
-height:92px;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-}
-
-
-
-/*==============================
-LOGO
-==============================*/
-
-.logo{
-
-display:flex;
-
-align-items:center;
-
-gap:14px;
-
-}
-
-.logo-icon{
-
-width:58px;
-
-height:58px;
-
-border-radius:50%;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:linear-gradient(135deg,var(--gold),#b8860b);
-
-color:#fff;
-
-font-size:28px;
-
-box-shadow:0 8px 25px rgba(212,175,55,.35);
-
-}
-
-.logo-title{
-
-display:flex;
-
-flex-direction:column;
-
-line-height:1.15;
-
-}
-
-.logo-title .fa-title{
-
-font-size:24px;
-
-font-weight:800;
-
-color:#fff;
-
-}
-
-.logo-title .en-title{
-
-font-size:14px;
-
-letter-spacing:2px;
-
-color:rgba(255,255,255,.75);
-
-}
-
-
-
-/*==============================
-NAVIGATION
-==============================*/
-
-.nav{
-
-display:flex;
-
-gap:34px;
-
-}
-
-.nav a{
-
-color:#fff;
-
-font-weight:600;
-
-position:relative;
-
-padding:8px 0;
-
-}
-
-.nav a::after{
-
-content:"";
-
-position:absolute;
-
-right:0;
-
-bottom:-6px;
-
-width:0;
-
-height:2px;
-
-background:var(--gold);
-
-transition:.35s;
-
-}
-
-.nav a:hover::after{
-
-width:100%;
-
-}
-
-.nav a:hover{
-
-color:var(--gold-light);
-
-}
-
-
-
-/*==============================
-HEADER BUTTON
-==============================*/
-
-.catalog-btn{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-padding:12px 22px;
-
-background:var(--gold);
-
-color:#fff;
-
-border-radius:999px;
-
-font-weight:700;
-
-box-shadow:0 8px 20px rgba(212,175,55,.35);
-
-}
-
-.catalog-btn:hover{
-
-transform:translateY(-2px);
-
-}
-
-.menu-btn{
-
-display:none;
-
-background:none;
-
-border:none;
-
-color:#fff;
-
-font-size:28px;
-
-cursor:pointer;
-
-}
-
-/*==============================
-SEARCH SECTION
-==============================*/
-
-.search-section{
-
-background:#eef3f8;
-
-padding:28px 0;
-
-}
-
-.search-box{
-
-max-width:900px;
-
-margin:auto;
-
-background:#fff;
-
-border-radius:999px;
-
-padding:8px;
-
-display:flex;
-
-align-items:center;
-
-box-shadow:0 15px 35px rgba(0,0,0,.08);
-
-border:1px solid rgba(0,0,0,.05);
-
-}
-
-.search-box input{
-
-flex:1;
-
-border:none;
-
-outline:none;
-
-padding:16px 24px;
-
-font-family:"Vazirmatn",sans-serif;
-
-font-size:16px;
-
-background:transparent;
-
-color:#222;
-
-}
-
-.search-box input::placeholder{
-
-color:#888;
-
-}
-
-.search-box button{
-
-border:none;
-
-background:linear-gradient(135deg,var(--gold),#b8860b);
-
-color:#fff;
-
-padding:16px 34px;
-
-border-radius:999px;
-
-font-family:"Vazirmatn",sans-serif;
-
-font-size:15px;
-
-font-weight:700;
-
-cursor:pointer;
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-transition:.35s;
-
-}
-
-.search-box button:hover{
-
-transform:translateY(-2px);
-
-}
-
-
-
-/*==============================
-HERO
-==============================*/
-
-.hero{
-
-position:relative;
-
-min-height:88vh;
-
-display:flex;
-
-align-items:center;
-
-overflow:hidden;
-
-background:
-linear-gradient(rgba(16,48,79,.72),rgba(16,48,79,.72)),
-url("images/hero-bg.jpg");
-
-background-size:cover;
-
-background-position:center;
-
-background-repeat:no-repeat;
-
-}
-
-.hero-overlay{
-
-position:absolute;
-
-inset:0;
-
-background:radial-gradient(circle at right,
-rgba(255,255,255,.06),
-transparent 60%);
-
-}
-
-.hero-container{
-
-position:relative;
-
-display:grid;
-
-grid-template-columns:1.1fr .9fr;
-
-align-items:center;
-
-gap:70px;
-
-padding:80px 0;
-
-}
-
-.hero-content{
-
-color:#fff;
-
-}
-
-.hero-subtitle{
-
-display:inline-block;
-
-padding:10px 18px;
-
-border:1px solid rgba(255,255,255,.25);
-
-border-radius:999px;
-
-background:rgba(255,255,255,.08);
-
-color:var(--gold-light);
-
-font-size:14px;
-
-margin-bottom:28px;
-
-}
-
-.hero-content h1{
-
-font-size:64px;
-
-line-height:1.3;
-
-font-weight:800;
-
-margin-bottom:28px;
-
-}
-
-.hero-content p{
-
-font-size:20px;
-
-line-height:2;
-
-max-width:650px;
-
-opacity:.95;
-
-margin-bottom:40px;
-
-}
-
-.hero-buttons{
-
-display:flex;
-
-gap:18px;
-
-flex-wrap:wrap;
-
-}
-
-.hero-image{
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-animation:float 5s ease-in-out infinite;
-
-}
-
-.hero-image img{
-
-max-width:560px;
-
-filter:drop-shadow(0 25px 60px rgba(0,0,0,.35));
-
-}
-
-@keyframes float{
-
-0%{transform:translateY(0);}
-
-50%{transform:translateY(-12px);}
-
-100%{transform:translateY(0);}
-
-}
-
-/*==============================
-STATISTICS
-==============================*/
-
-.stats{
-
-padding:90px 0;
-
-background:#ffffff;
-
-}
-
-.stats-grid{
-
-display:grid;
-
-grid-template-columns:repeat(4,1fr);
-
-gap:28px;
-
-}
-
-.stat-card{
-
-background:#fff;
-
-border-radius:22px;
-
-padding:40px 25px;
-
-text-align:center;
-
-border:1px solid rgba(0,0,0,.06);
-
-box-shadow:0 15px 35px rgba(0,0,0,.06);
-
-transition:.35s;
-
-}
-
-.stat-card:hover{
-
-transform:translateY(-8px);
-
-box-shadow:0 25px 45px rgba(0,0,0,.12);
-
-}
-
-.stat-card i{
-
-width:78px;
-
-height:78px;
-
-margin:auto;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,var(--gold),#b8860b);
-
-color:#fff;
-
-font-size:30px;
-
-margin-bottom:22px;
-
-}
-
-.stat-card h2{
-
-font-size:40px;
-
-color:var(--navy);
-
-margin-bottom:10px;
-
-font-weight:800;
-
-}
-
-.stat-card p{
-
-font-size:17px;
-
-color:#666;
-
-}
-
-
-
-/*==============================
-PRODUCT CATEGORIES
-==============================*/
-
-.categories{
-
-padding:110px 0;
-
-background:#f7f8fb;
-
-}
-
-.categories-grid{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:32px;
-
-}
-
-.category-card{
-
-position:relative;
-
-overflow:hidden;
-
-border-radius:24px;
-
-height:340px;
-
-box-shadow:0 18px 40px rgba(0,0,0,.10);
-
-transition:.4s;
-
-}
-
-.category-card:hover{
-
-transform:translateY(-8px);
-
-}
-
-.category-card img{
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-transition:.5s;
-
-}
-
-.category-card:hover img{
-
-transform:scale(1.08);
-
-}
-
-.category-overlay{
-
-position:absolute;
-
-inset:0;
-
-background:linear-gradient(to top,
-rgba(12,32,58,.88),
-rgba(12,32,58,.10));
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:flex-end;
-
-padding:28px;
-
-}
-
-.category-overlay h3{
-
-font-size:28px;
-
-color:#fff;
-
-margin-bottom:8px;
-
-}
-
-.category-overlay span{
-
-font-size:15px;
-
-letter-spacing:2px;
-
-color:var(--gold-light);
-
-}
-
-/*==============================
-WHY PARSGATE
-==============================*/
-
-.why-us{
-
-padding:110px 0;
-
-background:#ffffff;
-
-}
-
-.why-grid{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:30px;
-
-}
-
-.why-card{
-
-background:#fff;
-
-padding:35px;
-
-border-radius:22px;
-
-border:1px solid rgba(0,0,0,.06);
-
-box-shadow:0 15px 35px rgba(0,0,0,.06);
-
-transition:.35s;
-
-text-align:center;
-
-}
-
-.why-card:hover{
-
-transform:translateY(-8px);
-
-box-shadow:0 25px 45px rgba(0,0,0,.12);
-
-}
-
-.why-icon{
-
-width:72px;
-
-height:72px;
-
-margin:auto auto 22px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,var(--gold),#b8860b);
-
-color:#fff;
-
-font-size:28px;
-
-}
-
-.why-card h3{
-
-font-size:24px;
-
-color:var(--navy);
-
-margin-bottom:15px;
-
-}
-
-.why-card p{
-
-color:#666;
-
-font-size:16px;
-
-line-height:1.9;
-
-}
-
-
-
-/*==============================
-CATALOG
-==============================*/
-
-.catalog{
-
-padding:120px 0;
-
-background:linear-gradient(135deg,var(--navy),var(--navy-dark));
-
-}
-
-.catalog-box{
-
-display:grid;
-
-grid-template-columns:1.2fr .8fr;
-
-align-items:center;
-
-gap:60px;
-
-padding:55px;
-
-border-radius:28px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(12px);
-
-border:1px solid rgba(255,255,255,.12);
-
-}
-
-.catalog-content span{
-
-color:var(--gold-light);
-
-font-size:15px;
-
-font-weight:700;
-
-letter-spacing:2px;
-
-}
-
-.catalog-content h2{
-
-font-size:42px;
-
-color:#fff;
-
-margin:18px 0;
-
-}
-
-.catalog-content p{
-
-color:rgba(255,255,255,.88);
-
-font-size:18px;
-
-line-height:2;
-
-margin-bottom:35px;
-
-}
-
-.catalog-buttons{
-
-display:flex;
-
-gap:18px;
-
-flex-wrap:wrap;
-
-}
-
-.catalog-image img{
-
-border-radius:20px;
-
-box-shadow:0 20px 50px rgba(0,0,0,.25);
-
-}
-
-/*==============================
-EXPORT PROCESS
-==============================*/
-
-.process{
-
-padding:110px 0;
-
-background:#f7f8fb;
-
-}
-
-.process-grid{
-
-display:grid;
-
-grid-template-columns:repeat(4,1fr);
-
-gap:28px;
-
-}
-
-.process-item{
-
-background:#fff;
-
-border-radius:22px;
-
-padding:35px 25px;
-
-text-align:center;
-
-box-shadow:0 15px 35px rgba(0,0,0,.06);
-
-position:relative;
-
-transition:.35s;
-
-}
-
-.process-item:hover{
-
-transform:translateY(-8px);
-
-}
-
-.process-item .number{
-
-width:60px;
-
-height:60px;
-
-margin:auto;
-
-margin-bottom:22px;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,var(--gold),#b8860b);
-
-color:#fff;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-weight:800;
-
-font-size:22px;
-
-}
-
-.process-item h3{
-
-font-size:22px;
-
-color:var(--navy);
-
-margin-bottom:12px;
-
-}
-
-.process-item p{
-
-color:#666;
-
-}
-
-
-
-/*==============================
-CONTACT
-==============================*/
-
-.contact{
-
-padding:110px 0;
-
-background:#ffffff;
-
-}
-
-.contact-grid{
-
-display:grid;
-
-grid-template-columns:repeat(4,1fr);
-
-gap:28px;
-
-}
-
-.contact-card{
-
-background:#fff;
-
-border-radius:22px;
-
-padding:35px;
-
-text-align:center;
-
-box-shadow:0 15px 35px rgba(0,0,0,.06);
-
-transition:.35s;
-
-}
-
-.contact-card:hover{
-
-transform:translateY(-8px);
-
-}
-
-.contact-card i{
-
-font-size:34px;
-
-color:var(--gold);
-
-margin-bottom:20px;
-
-}
-
-.contact-card h3{
-
-font-size:22px;
-
-color:var(--navy);
-
-margin-bottom:12px;
-
-}
-
-.contact-card p{
-
-color:#666;
-
-}
-
-
-
-/*==============================
-FOOTER
-==============================*/
-
-.footer{
-
-background:var(--navy-dark);
-
-color:#fff;
-
-padding:70px 0 30px;
-
-}
-
-.footer-top{
-
-display:grid;
-
-grid-template-columns:2fr 1fr 1fr 1fr;
-
-gap:40px;
-
-}
-
-.footer h2{
-
-font-size:34px;
-
-margin-bottom:8px;
-
-}
-
-.footer span{
-
-color:var(--gold-light);
-
-font-size:14px;
-
-letter-spacing:2px;
-
-}
-
-.footer p{
-
-margin-top:18px;
-
-color:rgba(255,255,255,.75);
-
-line-height:2;
-
-}
-
-.footer h3{
-
-margin-bottom:18px;
-
-font-size:20px;
-
-}
-
-.footer a{
-
-display:block;
-
-margin-bottom:12px;
-
-color:rgba(255,255,255,.78);
-
-}
-
-.footer a:hover{
-
-color:var(--gold-light);
-
-}
-
-.social-icons{
-
-display:flex;
-
-gap:14px;
-
-margin-top:20px;
-
-}
-
-.social-icons a{
-
-width:44px;
-
-height:44px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.08);
-
-}
-
-.social-icons a:hover{
-
-background:var(--gold);
-
-color:#fff;
-
-}
-
-.footer hr{
-
-margin:45px 0 25px;
-
-border:none;
-
-height:1px;
-
-background:rgba(255,255,255,.12);
-
-}
-
-.footer-bottom{
-
-text-align:center;
-
-color:rgba(255,255,255,.6);
-
-}
-
-
-
-/*==============================
-RESPONSIVE
-==============================*/
-
-@media(max-width:992px){
-
-.hero-container,
-.catalog-box,
-.footer-top{
-
-grid-template-columns:1fr;
-
-}
-
-.stats-grid,
-.categories-grid,
-.why-grid,
-.process-grid,
-.contact-grid{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-.nav{
-
-display:none;
-
-}
-
-.menu-btn{
-
-display:block;
-
-}
-
-.hero-content h1{
-
-font-size:46px;
-
-}
-
-}
-
-@media(max-width:768px){
-
-.stats-grid,
-.categories-grid,
-.why-grid,
-.process-grid,
-.contact-grid{
-
-grid-template-columns:1fr;
-
-}
-
-.top-bar{
-
-display:none;
-
-}
-
-.hero-content h1{
-
-font-size:36px;
-
-}
-
-.hero-content p{
-
-font-size:17px;
-
-}
-
-.catalog-content h2{
-
-font-size:30px;
-
-}
-
-.section-title h2{
-
-font-size:30px;
-
-}
-
-.search-box{
-
-flex-direction:column;
-
-border-radius:24px;
-
-}
-
-.search-box input,
-.search-box button{
-
-width:100%;
-
-}
-
+/* =========================================
+   style.css - پارس گیت (Pars Gate)
+   طراحی لوکس، شیشه‌ای و طلایی
+   ========================================= */
+
+/* --- 1. متغیرها و تنظیمات پایه --- */
+:root {
+    --primary-dark: #0a1128;
+    --secondary-dark: #111d40;
+    --gold: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    --text-white: #ffffff;
+    --text-gray: #a0aec0;
+    --glass-bg: rgba(17, 29, 64, 0.6);
+    --glass-border: rgba(212, 175, 55, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: var(--primary-dark);
+    color: var(--text-white);
+    overflow-x: hidden;
+    line-height: 1.6;
+    direction: rtl;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s ease; }
+ul { list-style: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* --- 2. پس‌زمینه ذرات طلایی (Bokeh) --- */
+.bokeh-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at center, #1a2c5b 0%, #0a1128 100%);
+}
+.particle {
+    position: absolute;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp 20s infinite linear;
+}
+@keyframes floatUp {
+    0% { transform: translateY(110vh) scale(0); opacity: 0; }
+    50% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+
+/* --- 3. نوار بالایی و هدر --- */
+.top-bar {
+    background: rgba(10, 17, 40, 0.95);
+    padding: 8px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-gray);
+}
+.top-bar i { color: var(--gold); margin-left: 6px; }
+
+header {
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(10, 17, 40, 0.85);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+    font-size: 2.2rem;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+.logo-text h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    margin: 0;
+    opacity: 0;
+    animation: logoFadeIn 1.5s ease forwards;
+}
+.logo-text span {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    display: block;
+    margin-top: -4px;
+}
+@keyframes logoFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+nav ul { display: flex; gap: 25px; }
+nav a {
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+    font-size: 0.95rem;
+}
+nav a:hover, nav a.active { color: var(--gold); }
+nav a::after {
+    content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px;
+    background: var(--gold); transition: width 0.3s;
+}
+nav a:hover::after, nav a.active::after { width: 100%; }
+.mobile-menu-btn { display: none; cursor: pointer; }
+
+/* --- 4. بخش Hero و کشتی متحرک --- */
+.hero {
+    position: relative;
+    height: 85vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1494412574643-35d324698428?q=80&w=2000&auto=format&fit=crop'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* پارالاکس CSS */
+}
+.hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--primary-dark) 5%, rgba(10,17,40,0.7) 50%, rgba(10,17,40,0.4) 100%);
+}
+
+.ship-animation {
+    position: absolute;
+    bottom: 12%;
+    left: -300px;
+    width: 280px;
+    opacity: 0.85;
+    z-index: 2;
+    animation: sailShip 300s linear infinite;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+}
+@keyframes sailShip {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(150vw); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease 0.5s forwards;
+}
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h2 {
+    font-size: 3.2rem;
+    margin-bottom: 15px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    line-height: 1.3;
+}
+.hero h2 span { color: var(--gold); }
+.hero p {
+    font-size: 1.1rem;
+    color: #e2e8f0;
+    margin-bottom: 35px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 6px 20px;
+    display: flex;
+    align-items: center;
+    max-width: 550px;
+    margin: 0 auto;
+}
+.search-box input {
+    background: transparent; border: none; color: white;
+    flex: 1; padding: 10px; font-family: inherit; font-size: 0.95rem;
+}
+.search-box input::placeholder { color: rgba(255,255,255,0.6); }
+.search-box button {
+    background: var(--gold); border: none;
+    width: 40px; height: 40px; border-radius: 50%;
+    color: var(--primary-dark); cursor: pointer;
+    transition: 0.3s; display: flex; align-items: center; justify-content: center;
+}
+.search-box button:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--gold); }
+
+/* --- 5. نوار اعتبارنامه‌ها --- */
+.certificates {
+    background: white;
+    padding: 35px 5%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    z-index: 5;
+    margin-top: -60px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-width: 1200px;
+    margin-left: auto; margin-right: auto;
+}
+.cert-item {
+    text-align: center;
+    color: #333;
+    border-left: 1px solid #eee;
+    padding: 0 25px;
+    flex: 1;
+    min-width: 130px;
+}
+.cert-item:last-child { border: none; }
+.cert-item i { font-size: 2.2rem; color: #222; margin-bottom: 12px; display: block; }
+.cert-item strong { display: block; font-size: 1.1rem; font-weight: 700; }
+.cert-item span { font-size: 0.8rem; color: #666; display: block; margin-top: 4px; }
+
+/* --- 6. استایل کارت‌های شیشه‌ای (Glassmorphism) --- */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 30px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+.glass-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.15);
+}
+.glass-card::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg); transition: 0.6s;
+}
+.glass-card:hover::before { left: 150%; }
+
+/* --- 7. عنوان بخش‌ها --- */
+.section-title {
+    text-align: center; margin: 80px 0 40px;
+    position: relative;
+}
+.section-title h3 {
+    font-size: 2rem; color: var(--gold); display: inline-block;
+    padding: 0 25px; background: var(--primary-dark); position: relative; z-index: 1;
+}
+.section-title::after {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 250px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent);
+    z-index: 0;
+}
+
+/* --- 8. گرید محصولات --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 0 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.product-card {
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 16px;
+}
+.product-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+    border-radius: 16px;
+}
+.product-info {
+    position: relative; z-index: 2; text-align: center; padding: 20px;
+}
+.product-icon {
+    width: 60px; height: 60px; background: var(--primary-dark);
+    border: 2px solid var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 15px; color: var(--gold); font-size: 1.5rem;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+.product-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.product-btn {
+    display: inline-block; margin-top: 5px;
+    color: var(--gold); font-size: 0.9rem;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s;
+}
+.product-btn:hover { border-bottom-color: var(--gold); }
+
+/* --- 9. ویژگی‌ها (چرا پارس گیت) --- */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 0 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.feature-card { text-align: center; padding: 40px 20px; }
+.feature-card i {
+    font-size: 2.5rem; color: var(--gold); margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+.feature-card h4 { margin-bottom: 10px; font-size: 1.1rem; }
+.feature-card p { font-size: 0.9rem; color: var(--text-gray); line-height: 1.7; }
+
+/* --- 10. مراحل همکاری (Timeline) --- */
+.process-section {
+    padding: 80px 5%;
+    background: rgba(255,255,255,0.02);
+    margin-top: 80px;
+}
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.process-steps::before {
+    content: ''; position: absolute; top: 40px; left: 50px; right: 50px;
+    height: 2px; background: repeating-linear-gradient(to right, var(--gold) 0, var(--gold) 10px, transparent 10px, transparent 20px);
+    z-index: 0; opacity: 0.3;
+}
+.step {
+    text-align: center; position: relative; z-index: 1;
+    flex: 1; min-width: 160px;
+}
+.step-num {
+    width: 40px; height: 40px; background: var(--gold); color: var(--primary-dark);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: bold; margin: 0 auto 15px;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    font-size: 1.1rem;
+}
+.step h5 { color: var(--gold); margin-bottom: 8px; font-size: 1rem; }
+.step p { font-size: 0.85rem; color: var(--text-gray); line-height: 1.6; }
+
+/* --- 11. بنر کاتالوگ --- */
+.catalog-banner {
+    max-width: 1200px; margin: 80px auto;
+    background: linear-gradient(to right, #1a2c5b, #0a1128);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+.catalog-content { z-index: 2; max-width: 60%; }
+.catalog-img {
+    position: absolute; left: -30px; bottom: -30px;
+    width: 280px; opacity: 0.6; transform: rotate(-15deg);
+    border-radius: 10px; border: 1px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* دکمه‌های طلایی لوکس */
+.btn-luxury {
+    background: var(--gold-gradient);
+    color: var(--primary-dark);
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+.btn-luxury:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); }
+.btn-luxury::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-25deg);
+}
+.btn-luxury:hover::after { animation: shimmer 1.2s infinite; }
+@keyframes shimmer { 100% { left: 200%; } }
+
+.btn-outline {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    margin-left: 15px;
+}
+.btn-outline:hover { background: rgba(212, 175, 55, 0.1); box-shadow: none; }
+
+/* --- 12. فوتر و فرم تماس --- */
+.footer-top {
+    background: #050914;
+    padding: 70px 5% 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-col h4 {
+    color: var(--gold); margin-bottom: 25px; font-size: 1.2rem;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    display: inline-block; padding-bottom: 8px;
+}
+
+/* آکاردئون */
+.faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 10px;
+}
+.faq-question {
+    padding: 15px 0; cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; color: #ddd; transition: 0.3s; font-size: 0.95rem;
+}
+.faq-question:hover { color: var(--gold); }
+.faq-question i { transition: transform 0.3s; font-size: 0.8rem; }
+.faq-answer {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+    color: var(--text-gray); font-size: 0.9rem; line-height: 1.7;
+}
+.faq-item.active .faq-answer { max-height: 150px; padding-bottom: 15px; }
+.faq-item.active .faq-question i { transform: rotate(45deg); color: var(--gold); }
+
+/* فرم */
+.contact-form input, .contact-form select, .contact-form textarea {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 15px; margin-bottom: 15px; color: white;
+    border-radius: 6px; font-family: inherit; font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { 
+    border-color: var(--gold); background: rgba(255,255,255,0.08);
+}
+.contact-form select { appearance: none; cursor: pointer; }
+.form-row { display: flex; gap: 15px; }
+.form-row > div { flex: 1; }
+
+/* اطلاعات تماس */
+.contact-info li {
+    display: flex; align-items: flex-start; gap: 15px;
+    margin-bottom: 20px; color: #ccc; font-size: 0.95rem;
+}
+.contact-info i {
+    width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1);
+    color: var(--gold); display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+}
+.contact-info small { display: block; color: var(--text-gray); font-size: 0.8rem; margin-bottom: 3px; }
+
+.footer-bottom {
+    background: #02040a;
+    padding: 25px 5%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #555;
+    border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+/* --- 13. انیمیشن اسکرول --- */
+.reveal {
+    opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- 14. ریسپانسیو --- */
+@media (max-width: 992px) {
+    .hero h2 { font-size: 2.5rem; }
+    .ship-animation { width: 200px; bottom: 8%; }
+    .catalog-banner { padding: 30px; }
+    .catalog-content { max-width: 100%; }
+    .catalog-img { display: none; }
+}
+
+@media (max-width: 768px) {
+    .top-bar { flex-direction: column; gap: 10px; text-align: center; }
+    .top-bar > div { justify-content: center; }
+    
+    nav ul { display: none; }
+    .mobile-menu-btn { display: block; }
+    
+    .hero { height: 70vh; background-attachment: scroll; }
+    .hero h2 { font-size: 2rem; }
+    .hero p { font-size: 1rem; }
+    
+    .certificates { flex-direction: column; gap: 25px; margin-top: -40px; }
+    .cert-item { border-left: none; border-bottom: 1px solid #eee; padding-bottom: 20px; width: 100%; }
+    .cert-item:last-child { border: none; padding-bottom: 0; }
+    
+    .process-steps::before { display: none; }
+    .step { min-width: 100%; margin-bottom: 20px; }
+    
+    .form-row { flex-direction: column; gap: 0; }
+    
+    .footer-top { grid-template-columns: 1fr; gap: 40px; padding: 50px 5% 30px; }
 }
